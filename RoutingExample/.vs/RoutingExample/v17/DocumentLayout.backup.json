@@ -1,0 +1,49 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0CF8B04A-0A64-42BF-BC78-BD91C6B044F7}|RoutingExample\\RoutingExample.csproj|c:\\users\\deepanshusaini\\source\\repos\\routingexample\\routingexample\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0CF8B04A-0A64-42BF-BC78-BD91C6B044F7}|RoutingExample\\RoutingExample.csproj|solutionrelative:routingexample\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\RoutingExample\\Program.cs",
+              "RelativeDocumentMoniker": "RoutingExample\\Program.cs",
+              "ToolTip": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\RoutingExample\\Program.cs*",
+              "RelativeToolTip": "RoutingExample\\Program.cs*",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAawFoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-15T06:09:55.77Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

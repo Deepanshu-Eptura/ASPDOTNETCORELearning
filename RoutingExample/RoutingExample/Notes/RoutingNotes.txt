@@ -1,0 +1,102 @@
+﻿ ROUTING 
+
+		  //  invoking the corresponding endpoint based on the http method and url is called as Routing;
+
+		  //  is. in asp.net core it is accomplished with two individual methods that is "use routing" and"use endpoints"
+		  	.you would like to invoke them in thesame order.
+		  	 that is first "use routing" and after that only "use endpoints".
+
+
+		UseRouting(): 
+					enables routing.
+					select an approriate end point(middleware) based on url path and Http method.
+
+		UseEndPoints():
+					 Executes the approriate end point(middleware) baesd on thr endpoint selected by the above Use Routing.
+
+
+					At the time of compilation all the endpoints are defined and stored in comipled source code.
+					Based on incoming req. appropriate endpoints get selected, using UseRouting() and then get executed Using, UseEndpoints() mehtod.
+
+				 ** Creates End Points using Map* methods
+
+				 ** URL after the port no. is called, path.
+
+				 **  whenever a middleware executed based on the routing it is called endpoint.
+
+ 	  Map() :-
+
+ 				// this is being said by default the "map" endpoint executes for either of "get", "post";or any other http
+ 					 method may be "put" or "delete" or "patch", or any other type of http method.
+
+					app.UseRouting();
+
+					 app.UseEndpoints( endpoints =>{
+
+					 		endpoint.Map("URL", async (context) =>{
+
+					 			await context.Response.......
+					 		});
+					 });
+
+						Here we require to pass the Lambda expression that contains the argument "endpoints". And add your endpoints using Map* methods.
+
+						 In map* method we require to pass the arguments one is incoming request "URL" or "/URL" , and then provide the reqest delegate () =>, means a middleware. that receive the "context" as argument.
+
+						 Similarlly for MapGET and MapPost
+
+ *** NOTE:   Map method runs for all Http methods like GET, PUT, POST, DELETE , etc  ***
+
+
+ 	GetEndpoint(); :
+ 						// when you want to investigate which endpoint in matched , then this method is used.
+
+ 						// It is used always after UseRouting() method.
+
+							app.Use(async (context, next) =>{
+							   Microsoft.AspNetCore.Http.Endpoint? endPoint = context.GetEndpoint();
+									  if (endPoint != null)
+									  {
+									     await context.Response.WriteAsync($"Map Endpoint: {endPoint.DisplayName}");
+									    }
+								    await next(context);
+								});
+
+
+   Route Parameters :-
+					// parts of URL which can be vary are called route parameters
+
+				/file/{filename}.{extension} --> here "file" and "." is literal text(fixed value) and { } are the route parameters can be vary and ready to accept any value.
+
+				/employee/profile/john  <---> /employee/profile/{}
+
+					// route param. are ready to accept any value at run time.
+
+					// Case insensitive
+
+				Programtically we are able to read the values of route parameters using,
+
+			  context.Resquest.RouteValues[" "];
+
+			  	this is the object type must be converted into string or any other to store. Convert.ToString()
+
+			 endpoint.Map("files/{filename}.{extension}", async context =>
+				{
+				    string? filename = Convert.ToString(context.Request.RouteValues["filename"]);
+				    string? extension = Convert.ToString(context.Request.RouteValues["extension"]);
+				    await context.Response.WriteAsync($"in files: {filename} . {extension}");
+				});
+
+
+
+
+
+
+	Default Parameter :
+
+						endpoint.Map("files/{filename=sample}.{extension}", async context =>
+
+						endpoint.Map("product/details/{id=1}", async context =>
+
+					//here above "sample" and "1" is the default value for the url in the middleware/endpoint doesnt matches.
+ 					// there should be not nay space in the url
