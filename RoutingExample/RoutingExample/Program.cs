@@ -1,9 +1,17 @@
+using System.Text;
 using Microsoft.AspNetCore.Identity;
+using RoutingExample.CustromConstraints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRouting(option =>
+{
+    option.ConstraintMap.Add("months", typeof (MonthCustomConstraint));
+});
+
 var app = builder.Build();
 
-//        // using GetEndpoint
+            // using GetEndpoint
 
 //app.Use(async (context, next) =>
 //{
@@ -21,7 +29,7 @@ var app = builder.Build();
 app.UseRouting();
 
 // creating end points
-//-----------------------------------------------------------------------//
+//-----------------------------------------------------------------------
 //          // only for Map()
 
 //app.UseEndpoints(endpoints => {
@@ -35,7 +43,7 @@ app.UseRouting();
 //    });
 
 //});
-//----------------------------------------------------------------------//
+//----------------------------------------------------------------------
 //                //for MapGET() and MapPost()
 //app.UseEndpoints(endpoints =>
 //{
@@ -64,38 +72,106 @@ app.UseRouting();
 
 //});
 
-//-----------------------------------------------------------------//
+//-----------------------------------------------------------------
 
 
-                //  using Route Parameters
-app.UseEndpoints ( endpoint =>
+                        //  using Route Parameters
+app.UseEndpoints(endpoint =>
 {
-    endpoint.Map("files/{filename}.{extension}", async context =>
-    {
-        string? filename= Convert.ToString(context.Request.RouteValues["filename"]);
-        string? extension = Convert.ToString(context.Request.RouteValues["extension"]);
-        await context.Response.WriteAsync($"in files: {filename} . {extension}");
-    });
+endpoint.Map("files/{filename}.{extension}", async context =>
+{
+    string? filename = Convert.ToString(context.Request.RouteValues["filename"]);
+    //context.Request.RouteValues["filename"], this is of System.Object type, therefore to be converted into valid datatype
 
-    endpoint.Map("employee/profile/{empname}", async context =>
-    {
-        string? empname = Convert.ToString(context.Request.RouteValues["empname"]);
-        await context.Response.WriteAsync($"In profile : {empname}");
-    });
-
-    // using default value 
-    // eg, for prodcut/details/1 
-    endpoint.Map("product/details/{id=1}", async context =>
-    {
-        int id = Convert.ToInt32(context.Request.RouteValues["id"]);
-        await context.Response.WriteAsync($"Product id is : {id}");
-    });
-
+    string? extension = Convert.ToString(context.Request.RouteValues["extension"]);
+    await context.Response.WriteAsync($"in files: {filename} . {extension}");
 });
 
+endpoint.Map("employee/profile/{empname}", async context =>
+{
+    string? empname = Convert.ToString(context.Request.RouteValues["empname"]);
+    await context.Response.WriteAsync($"In profile : {empname}");
+});
+
+                    // using default value 
+                    // eg, for prodcut/details/1 
+endpoint.Map("product/details/{id=1}", async context =>
+{
+    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+    await context.Response.WriteAsync($"Product id is : {id}");
+});
+
+
+                    // using OPTIONAL PARAMETER,using ? 
+                    // eg, for class/rollno?/ 
+
+endpoint.Map("class/rollno/{roll?}", async context =>
+{
+    if (context.Request.RouteValues.ContainsKey("roll"))
+    {
+        int rollNo = Convert.ToInt32(context.Request.RouteValues["roll"]);
+        await context.Response.WriteAsync($"Student roll no is : {rollNo}");
+    }
+    else
+    {
+        await context.Response.WriteAsync("Student id is not supplied");
+    }
+});
+                    // using ROUTE CONSTRAINTS 
+endpoint.Map("student-attendance-report/{reportdate:datetime}", async context =>
+{
+    DateTime reportDateTime = Convert.ToDateTime(context.Request.RouteValues["reportdate"]);
+    await context.Response.WriteAsync($"Date of Attendance is : {reportDateTime.ToShortDateString()}");
+    // ToShortDateString() , this will convert the date into short date string i.e. without time.
+});
+                            //using GUID
+endpoint.Map("city/{cityid:guid}",async context =>
+{
+    Guid cityId= Guid.Parse(Convert.ToString(context.Request.RouteValues["cityid"])!);
+    //here ! is for that the value cant be null i.e. for empty string
+    await context.Response.WriteAsync($"City ID is : {cityId}");
+});
+
+    //  more than one constraints
+    endpoint.Map("customer/bill/{billno:int:minlength(2):min(10):?}", async context =>
+    {
+        if (context.Request.RouteValues.ContainsKey("billno"))
+        {
+            int billNo = Convert.ToInt32(context.Request.RouteValues["billno"]);
+            await context.Response.WriteAsync($"Bill no is : {billNo}");
+        }
+        else
+        {
+            await context.Response.WriteAsync("Bill no is not supplied");
+        }
+    });
+                //      using regex expression, also using custom constraint "months"
+
+    endpoint.Map("sales-report/{year:int:length(4):min(1999)}/{month:months}", async context=> {
+        int? year = Convert.ToInt32(context.Request.RouteValues["year"]);
+        string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
+        if (month == "apr" || month == "jul" || month == "oct" || month == "dec")
+        {
+            await context.Response.WriteAsync($"Sales report of year-{year} and month-{month} using custom constraint");
+        }
+        else 
+        {
+            await context.Response.WriteAsync($" {month} month is not allowed for sales report");
+        }
+    });
+
+    endpoint.Map("sales-report/2024/jan", async context =>
+    {
+        await context.Response.WriteAsync("Sales report  exclusively for jan 2024");
+    });
+
+
+});
+            //  Endpoit Selection order (precedence, which endpoint will be executed)
 app.Run(async context =>
 {
-    await context.Response.WriteAsync($"The request URL is {context.Request.Path}");
+    await context.Response.WriteAsync($"No Route is matched at {context.Request.Path}");
 
 });
 
