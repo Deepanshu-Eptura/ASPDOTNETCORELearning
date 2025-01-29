@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\RoutingExample\\RoutingExample.csproj",
+      "projectUniqueName": "C:\\New folder\\RoutingExample\\RoutingExample\\RoutingExample.csproj",
       "projectName": "RoutingExample",
-      "projectPath": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\RoutingExample\\RoutingExample.csproj",
+      "projectPath": "C:\\New folder\\RoutingExample\\RoutingExample\\RoutingExample.csproj",
       "packagesPath": "C:\\Users\\DeepanshuSaini\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DeepanshuSaini\\source\\repos\\RoutingExample\\RoutingExample\\obj\\",
+      "outputPath": "C:\\New folder\\RoutingExample\\RoutingExample\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
